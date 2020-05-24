@@ -1,0 +1,5 @@
+Flask==1.1.2
+Pandas==0.25.1
+gunicorn==20.0.4
+boto3==1.10.50
+requests==2.18.4

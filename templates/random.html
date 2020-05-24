@@ -1,0 +1,27 @@
+{% extends "_base.html" %}
+
+{% block title %}
+        Random
+{% endblock %}
+
+{% block pageblock %}
+
+        <div id="up">
+                <h1>How many iterations? <br/><br/></h1>
+        </div>
+
+        <div id="down">
+                <form id="stats" method="post" action="/random">
+                        <h4>Insert number: <input type="text" name="key1" /><br/></h4>
+                        <h4><input type="submit" name="draw" value="Submit" />
+                </form>
+
+                {% if note %}
+                <h3 style="color: #11FFFF">
+                        {{ note }}
+                </h3>
+                {% endif %}
+
+        </div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+import pandas as pd
+import numpy as np
+import requests
+import http.client
+import io
+import statistics as stat
+import random
+import os
+import logging
+import sys
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+from scipy import stats
+
+url = "https://natchstocks.s3.amazonaws.com/AAPL.csv"
+s = requests.get(url).content
+data = pd.read_csv(io.StringIO(s.decode('utf-8')))
+df = pd.DataFrame(data)
+
+###########################################################################
+######################  Buy/Sell  ##############################################
+###########################################################################
+ClosingPrice = df.iloc[:,4]
+MoveAvg = []
+Signal = []
+time_window = 20
+for i in range(0, df.shape[0] - time_window):
+    Total = 0;
+    for j in range(0, time_window):
+        Total = Total + df.iloc[i + j, 4]
+    MoveAvg.append(Total / time_window)
+# print(Total/20, file=sys.stderr)
+print(df.shape[0])
+print(len(MoveAvg))
+for i in range(len(MoveAvg)):
+    if (i > 0):
+        if (ClosingPrice[i+time_window] - MoveAvg[i] > 0 and ClosingPrice[i+time_window-1] - MoveAvg[i - 1] <= 0 ):
+            Signal.append(('Buy',i+time_window,ClosingPrice[i+time_window]))
+        elif (ClosingPrice[i+time_window] - MoveAvg[i] < 0 and ClosingPrice[i+time_window-1] - MoveAvg[i - 1] >= 0 ):
+            Signal.append(('Sell',i+time_window,ClosingPrice[i+time_window]))
+
+print(Signal)
+
+vals = [Signal[i][0] for i in range(len(Signal))]
+print(vals)
+print(len(Signal))
+###########################################################################
+######################  VAR  ##############################################
+###########################################################################
+#
+# Signal_Pos = 162
+# V = 101
+# signal_price = df.iloc[Signal_Pos, 4]
+# returns = [((df.iloc[i, 4] - df.iloc[i-1, 4])/df.iloc[i-1, 4]) for i in range( Signal_Pos,Signal_Pos - (V-1), -1  )]
+#
+# returns_mean = stat.mean(returns)
+# returns_std = stat.stdev(returns)
+# print(len(returns))
+# print("Mean: " + str(returns_mean))
+# print("Std: " + str(returns_std))
+#
+# simulate = 10000;
+# vals = [random.gauss(returns_mean,returns_std) for i in range(simulate)]
+# print(vals)
+# new_prices = [(1+vals[i])*signal_price for i in range(simulate)]
+#
+# print("Signal Price:"+str(signal_price))
+#
+# new_prices.sort(reverse=True)
+# print(new_prices)
+# print(len(new_prices))
+#
+# print(new_prices[int(len(new_prices) * .95)])
+#
+# ax = sns.distplot(new_prices,bins=100);
+# ax.set(xlabel='Distribution from Signal Price: '+str(signal_price) , ylabel='Frequency')
+# plt.show()

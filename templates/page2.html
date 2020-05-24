@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="/static/def.css" rel="stylesheet" type="text/css" />
+<title>second page</title>
+</head>
+
+<body>
+
+	<div id="page">
+	<h1>Here is my Second Page.<br/></h1>
+	<h3> if you like, you can switch to my <a href="index.html">First Page</a>.</h3>
+	</div>
+
+	{% extends "_base.html" %}
+
+	{% block title %}
+		Page 2
+	{% endblock %}
+
+	{% block pageblock %}
+
+		<div id="up">
+			<h1>Here is my Second Page.<br/></h1>
+			<h3>if you like, you can switch to my <a href="index.html">First Page</a>.</h3>
+		</div>
+
+		<div id="down">
+			<h3><a href="http://www.surrey.ac.uk">Go to University Home Page</a></h3>
+		</div>
+
+	{% endblock %}
+
+</body>
+
+</html>

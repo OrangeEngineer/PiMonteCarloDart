@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="/static/def.css" rel="stylesheet" type="text/css" />
+<title>first page</title>
+</head>
+
+<body>
+
+	{% extends "_base.html" %}
+
+	{% block title %}
+		Page 1
+	{% endblock %}
+
+	{% block pageblock %}
+
+	<div id="up">
+		<h1>I am a student from University of Surrey. <br/><br/></h1>
+		<h1>Here is my First Page.<br/></h1>
+		<h3>if you like, you can switch to my <a href="page2.html">Second Page</a>.</h3>
+	</div>
+
+	{% include 'form.html' %}
+
+	{% endblock %}
+</body>
+
+</html>
