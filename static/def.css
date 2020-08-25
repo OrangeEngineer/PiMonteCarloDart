@@ -4,6 +4,7 @@ body {
 	text-align: justify;
 	font: 15px Arial, Helvetica, sans-serif;
 	color: #626262;
+	background-color:  #fff9f1 !important;
 }
 
 h1, h1 a, h2, h2 a, h3, {
@@ -30,20 +31,50 @@ h3 {
 
 IMG.displayed{
 	display: block;
-	margin-left: 200px;
+	margin-left: 150px;
 }
 
+#myTable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+#table-scroll {
+  height:400px;
+  overflow:auto;
+  margin-top:20px;
+}
+#myTable td, #myTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#myTable tr:nth-child(even){background-color: #f2f2f2;}
+
+#myTable tr:hover {background-color: #ddd;}
+
+#myTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
 #page {
-	background: #AAAAAA;
+	background:  #fff9f1 !important;
 
 }
 
 #up {
-	margin-left: 10px;
+	margin-left: 150px;
 }
 
 #down{
-	margin-left: 300px;
+	margin-left: 180px;
+}
+
+#Final{
+	margin-left: 100px;
 }
 
 

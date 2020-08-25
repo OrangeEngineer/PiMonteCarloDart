@@ -13,10 +13,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy import stats
 
-url = "https://natchstocks.s3.amazonaws.com/AAPL.csv"
-s = requests.get(url).content
-data = pd.read_csv(io.StringIO(s.decode('utf-8')))
-df = pd.DataFrame(data)
+
 
 ###########################################################################
 ######################  Buy/Sell  ##############################################

@@ -1,3 +1,20 @@
 runtime: python37
 
-entrypoint: gunicorn -b :$PORT app:app
+entrypoint: gunicorn -b :$PORT app:app --max-requests 1500 --timeout 90 --graceful-timeout 30
+
+instance_class: F4_1G
+
+liveness_check:
+  path: "/liveness_check"
+  check_interval_sec: 31
+  timeout_sec: 30
+  failure_threshold: 5
+  success_threshold: 5
+
+readiness_check:
+  path: "/readiness_check"
+  check_interval_sec: 31
+  timeout_sec: 30
+  failure_threshold: 5
+  success_threshold: 5
+  app_start_timeout_sec: 300

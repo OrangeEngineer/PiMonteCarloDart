@@ -1,0 +1,147 @@
+{% extends "_base.html" %}
+
+{% block title %}
+        Random
+{% endblock %}
+
+{% block pageblock %}
+
+        <div id="up">
+                <h1>Pi Value Estimation  <br/><br/></h1>
+        </div>
+
+        <div id="down">
+                <form id="stats" method="post" action="/piestimation">
+                        <h4>Insert shots: <input type="text" name="key1" /><br/></h4>
+                        <h4>Insert report rate: <input type="text" name="period" /><br/></h4>
+                        <label for="R">degree of parallelism</label>
+                          <select name="R" id="R">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                              <option value="10">15</option>
+                              <option value="10">20</option>
+                              <option value="10">30</option>
+                          </select>
+                          <br><br>
+                          <label for="service">Choose a service:</label>
+                              <select id="service" name="service">
+                                <option value="Lambda">Lambda</option>
+                                <option value="EC2">EC2</option>
+                          </select>
+                        <br>
+                        <h4><input type="submit" name="draw" value="Submit" /></h4>
+                    <br>
+                </form>
+                    <h4><a href="https://pivalueslog.s3.amazonaws.com/s3_df.csv">History log download</a></h4>
+                    <br>
+
+
+
+        </div>
+        {% if note %}
+        <script>
+                window.onload = function () {
+
+                    var mylist = {{ note }};
+                    var Total_shots = {{Total_shots}};
+                    var task_id = {{ task_id }};
+                    var In_Circle = {{In_Circle}};
+
+                    for (var i =0; i < mylist.length; i++){
+                          var table = document.getElementById("myTable");
+                          var row = table.insertRow(i+1);
+                          var cell1 = row.insertCell(0);
+                          var cell2 = row.insertCell(1);
+                          var cell3 = row.insertCell(2);
+                          var cell4 = row.insertCell(3);
+                          cell1.innerHTML =  task_id[i];
+                          cell2.innerHTML = In_Circle[i];
+                          cell3.innerHTML =  Total_shots[i];
+                          cell4.innerHTML = mylist[i];
+                    }
+
+                    google.charts.load('current', {packages: ['corechart', 'line']});
+                    google.charts.setOnLoadCallback(drawCurveTypes);
+
+                    function drawCurveTypes() {
+                          var data = new google.visualization.DataTable();
+                          data.addColumn('number', 'X');
+                          data.addColumn('number', 'estimated value');
+                          data.addColumn('number', 'Pi value');
+                          for(var i = 0; i < mylist.length; i ++){
+
+                            data.addRows([
+                                [Total_shots[i],mylist[i],{{pi_value}}]
+                              ]);
+                          }
+
+                          var options = {
+                            hAxis: {
+                              title: 'Shots'
+                            },
+                            vAxis: {
+                              title: 'Estimated Values of Pi'
+                            },
+                            series: {
+                              1: {curveType: 'function'}
+                            },
+                            explorer: {
+                            actions: ['dragToZoom', 'rightClickToReset'],
+                            axis: 'horizontal',
+                            keepInBounds: true,
+                            maxZoomIn: 4.0}
+                          };
+
+                          var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                          chart.draw(data, options);
+                        }
+
+                }
+        </script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <div id="chart_div" style="height: 370px; width: 100%;"></div>
+
+                <table id="Final" class="table">
+                    <tr>
+                        <td>Final estimated value of Pi:</td>
+                        <td>{{FinalValue}} </td>
+                    </tr>
+                    <tr>
+                        <td>The number of total shots S:</td>
+                        <td>{{S}}</td>
+                    </tr>
+                    <tr>
+                        <td>Report rate Q:</td>
+                        <td>{{Q}}</td>
+                    </tr>
+                    <tr>
+                        <td>the number of scalable size R:</td>
+                        <td>{{R}}</td>
+                    </tr>
+                    <tr>
+                        <td>the name of the selected service:</td>
+                        <td>{{service}}</td>
+                    </tr>
+                </table>
+        <div id="table-scroll">
+                <table id="myTable" class="table" style="max-height:800px;">
+              <tr>
+                  <td>Task id</td>
+                  <td>In Circle</td>
+                  <td>Shots</td>
+                  <td>Estimated values of Pi</td>
+              </tr>
+            </table>
+        </div>
+
+ {% endif %}
+
+{% endblock %}
